@@ -2,6 +2,7 @@ package com.health.iq.data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -36,5 +37,13 @@ public class ConnectionHandler {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+    }
+
+    public static void close(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) try {
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
