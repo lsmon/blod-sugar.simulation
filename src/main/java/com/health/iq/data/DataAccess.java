@@ -74,7 +74,8 @@ public class DataAccess {
         if (!doesBlodSugarLevelsTableExists) {
             if (!ConnectionHandler.getConnection().createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s (\n" +
                     "  timestamp datetime PRIMARY KEY,\n" +
-                    "  blood_sugar_level integer\n" +
+                    "  blood_sugar_level real,\n" +
+                    "  status text\n"+
                     ")", BloodSugarLevel.TBL_BLOOD_SUGAR_LEVELS)))
                 System.out.println(BloodSugarLevel.TBL_BLOOD_SUGAR_LEVELS + " TABLE CREATED");
             else
@@ -178,7 +179,7 @@ public class DataAccess {
         try {
             preparedStatement = ConnectionHandler.getConnection().prepareStatement("INSERT INTO blood_sugar_levels (\"timestamp\", blood_sugar_level) VALUES (?,?)");
             preparedStatement.setLong(1, bloodSugarLevel.getTimestamp().getTime());
-            preparedStatement.setInt(2, bloodSugarLevel.getBloodSugarLevel());
+            preparedStatement.setDouble(2, bloodSugarLevel.getBloodSugarLevel());
             result = !preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

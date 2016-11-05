@@ -15,12 +15,14 @@ public class Input {
     enum columns {
         timestamp,
         type,
-        id
+        id,
+        index
     }
 
     private Date timestamp;
     private String type;
     private int id;
+    private double index;
 
     public Date getTimestamp() {
         return timestamp;
@@ -46,11 +48,20 @@ public class Input {
         this.id = id;
     }
 
+    public double getIndex() {
+        return index;
+    }
+
+    public void setIndex(double index) {
+        this.index = index;
+    }
+
     public JSONObject toJSONObject(){
         JSONObject object = new JSONObject();
         object.put(columns.timestamp.name(), getTimestamp().toString());
         object.put(columns.type.name(), getType());
         object.put(columns.id.name(), getId());
+        object.put(columns.index.name(), getIndex());
         return object;
     }
 
@@ -64,6 +75,7 @@ public class Input {
         input.setTimestamp(r.getTimestamp(columns.timestamp.name()));
         input.setType(r.getString(columns.type.name()));
         input.setId(r.getInt(columns.id.name()));
+        input.setIndex(r.getDouble(columns.index.name()));
         return input;
     }
 }

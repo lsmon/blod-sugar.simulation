@@ -1,29 +1,103 @@
 package com.health.iq.data;
 
 import com.health.iq.model.BloodSugarLevel;
+import com.health.iq.model.Exercise;
+import com.health.iq.model.GlycemicIndexByFood;
 import com.health.iq.model.Input;
 
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lsmon on 11/2/16.
  */
 public class LoadData {
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+    private static List<Input> randomRunSchedule() throws ParseException {
+        Random random = new Random(); // Ideally just create one instance globally
+
+
+        List<Input> todaySchedule = new LinkedList<>();
+        Input startDate = new Input();
+        startDate.setIndex(BloodSugarLevel.MIN_BLOOD_SUGAR_LEVEL);
+        startDate.setTimestamp(dateFormat.parse("2016-11-01 07:00:00"));
+        startDate.setType("normalize");
+        startDate.setId(0);
+        todaySchedule.add(startDate);
+
+        DataAccess access = DataAccess.getInstance();
+
+        List<Exercise> exerciseList = access.selectAllExcerciseList();
+        List<GlycemicIndexByFood> glycemicIndexByFoodList = access.selectAllGlycemicIndexByFoodList();
+
+        GlycemicIndexByFood food = glycemicIndexByFoodList.get(random.nextInt(glycemicIndexByFoodList.size() - 1));
+        Input ingestion = new Input();
+        ingestion.setId(food.getId());
+        ingestion.setIndex(food.getGlycemicIndex());
+        ingestion.setType("food");
+        ingestion.setTimestamp(dateFormat.parse("2016-11-01 07:10:00"));
+        todaySchedule.add(ingestion);
+
+        Exercise exercise = exerciseList.get(random.nextInt(exerciseList.size() - 1));
+        Input workout = new Input();
+        workout.setId(exercise.getId());
+        workout.setIndex(exercise.getExerciseIndex());
+        workout.setType("exercise");
+        workout.setTimestamp(dateFormat.parse("2016-11-01 08:00:00"));
+        todaySchedule.add(workout);
+
+        food = glycemicIndexByFoodList.get(random.nextInt(glycemicIndexByFoodList.size() - 1));
+        ingestion = new Input();
+        ingestion.setId(food.getId());
+        ingestion.setIndex(food.getGlycemicIndex());
+        ingestion.setType("food");
+        ingestion.setTimestamp(dateFormat.parse("2016-11-01 12:30:00"));
+        todaySchedule.add(ingestion);
+
+        exercise = exerciseList.get(random.nextInt(exerciseList.size() - 1));
+        workout = new Input();
+        workout.setId(exercise.getId());
+        workout.setIndex(exercise.getExerciseIndex());
+        workout.setType("exercise");
+        workout.setTimestamp(dateFormat.parse("2016-11-01 13:30:00"));
+        todaySchedule.add(workout);
+
+        food = glycemicIndexByFoodList.get(random.nextInt(glycemicIndexByFoodList.size() - 1));
+        ingestion = new Input();
+        ingestion.setId(food.getId());
+        ingestion.setIndex(food.getGlycemicIndex());
+        ingestion.setType("food");
+        ingestion.setTimestamp(dateFormat.parse("2016-11-01 16:00:00"));
+        todaySchedule.add(ingestion);
+
+        food = glycemicIndexByFoodList.get(random.nextInt(glycemicIndexByFoodList.size() - 1));
+        ingestion = new Input();
+        ingestion.setId(food.getId());
+        ingestion.setIndex(food.getGlycemicIndex());
+        ingestion.setType("food");
+        ingestion.setTimestamp(dateFormat.parse("2016-11-01 19:30:00"));
+        todaySchedule.add(ingestion);
+
+        exercise = exerciseList.get(random.nextInt(exerciseList.size() - 1));
+        workout = new Input();
+        workout.setId(exercise.getId());
+        workout.setIndex(exercise.getExerciseIndex());
+        workout.setType("exercise");
+        workout.setTimestamp(dateFormat.parse("2016-11-01 21:30:00"));
+        todaySchedule.add(workout);
+
+        return todaySchedule;
+    }
 
     public static void main(String[] args) {
-        DataAccess access = DataAccess.getInstance();
-        System.out.println(access.selectAllExcerciseList());
-        System.out.println(access.selectAllGlycemicIndexByFoodList());
-        Input input = new Input();
-        input.setTimestamp(new Date());
-        input.setType("exercise");
-        input.setId(2);
-        System.out.println("insert input: " + access.insert(input));
-        BloodSugarLevel bloodSugarLevel = new BloodSugarLevel();
-        bloodSugarLevel.setTimestamp(new Date());
-        bloodSugarLevel.setBloodSugarLevel(80);
-        System.out.println("insert blood_sugar_level: " + access.insert(bloodSugarLevel));
-        System.out.println(access.selectAllBloodSugarLevel());
-        System.out.println(access.selectAllInputs());
+        try {
+            randomRunSchedule().forEach(input -> System.out.println(input.toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
