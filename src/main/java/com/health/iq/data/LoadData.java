@@ -1,6 +1,6 @@
 package com.health.iq.data;
 
-import com.health.iq.model.BloodSugarLevel;
+import com.health.iq.controller.Leveling;
 import com.health.iq.model.Exercise;
 import com.health.iq.model.GlycemicIndexByFood;
 import com.health.iq.model.Input;
@@ -23,7 +23,7 @@ public class LoadData {
 
         List<Input> todaySchedule = new LinkedList<>();
         Input startDate = new Input();
-        startDate.setIndex(BloodSugarLevel.MIN_BLOOD_SUGAR_LEVEL);
+        startDate.setIndex(80.0);
         startDate.setTimestamp(dateFormat.parse("2016-11-01 07:00:00"));
         startDate.setType("normalize");
         startDate.setId(0);
@@ -95,9 +95,12 @@ public class LoadData {
 
     public static void main(String[] args) {
         try {
-            randomRunSchedule().forEach(input -> System.out.println(input.toString()));
+            Leveling leveling = new Leveling();
+            leveling.simulateBloodSugarLevels(randomRunSchedule());
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
+
 }
