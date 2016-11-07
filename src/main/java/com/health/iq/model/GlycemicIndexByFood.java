@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class GlycemicIndexByFood {
     public static final String TBL_FOOD_DB = "food_db";
 
-    enum columns {
+    public enum columns {
         id,
         name,
         glycemic_index

@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class Exercise {
     public static final String TBL_EXERCISE = "exercise";
-    enum columns {
+    public enum columns {
         id,
         exercise,
         exercise_index

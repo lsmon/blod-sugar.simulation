@@ -5,8 +5,10 @@ import com.health.iq.model.Exercise;
 import com.health.iq.model.GlycemicIndexByFood;
 import com.health.iq.model.Input;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -133,5 +135,42 @@ public class DataAccess {
             ConnectionHandler.closeConnection();
         }
         return inputList;
+    }
+
+    public static boolean insert(Date timestmap, double bloodSugarLevel) {
+        PreparedStatement preparedStatement =  null;
+        boolean result = false;
+        try {
+            preparedStatement = ConnectionHandler.getConnection().prepareStatement("INSERT INTO blood_sugar_levels (\"timestamp\", blood_sugar_level) VALUES (?,?)");
+            preparedStatement.setLong(1, timestmap.getTime());
+            preparedStatement.setDouble(2, bloodSugarLevel);
+            result = !preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionHandler.close(preparedStatement);
+            ConnectionHandler.closeConnection();
+        }
+        return result;
+    }
+
+    public static boolean insert(Input input) {
+        PreparedStatement preparedStatement =  null;
+        boolean result = false;
+        try {
+            preparedStatement = ConnectionHandler.getConnection().prepareStatement("INSERT INTO inputs (timestamp, type, id, name, sugar_index) VALUES (?,?,?,?,?)");
+            preparedStatement.setLong(1, input.getTimestamp().getTime());
+            preparedStatement.setString(2, input.getType());
+            preparedStatement.setInt(3, input.getId());
+            preparedStatement.setString(4, input.getName());
+            preparedStatement.setDouble(5, input.getIndex());
+            result = !preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionHandler.close(preparedStatement);
+            ConnectionHandler.closeConnection();
+        }
+        return result;
     }
 }

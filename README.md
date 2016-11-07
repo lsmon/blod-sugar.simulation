@@ -1,21 +1,67 @@
-# blood-sugar.simulation
+# Blood Sugar Simulation
 
-**A Simulator for daily blood sugar.**
+This is an assignment from Health IQ to simulate the blood sugar levels of person during a day.
 
-In general, eating food raises blood sugar and exercise lowers blood sugar.
-This project just simulates what can happen hypothetically with the sugar levels on the blood after eating and exercising.
+## Getting Started
+cold run:
+```
+mvn install
+```
 
-__Food:__
-In our model, eating food will increase blood sugar linearly for two hours.  The rate of increase depends on the food as defined in a database that we will provide.  See the glycemic index column. (NOTE this is only loosely based on science)
+or
+```
+mvn clean install
+```
+
+execute a simple random test
+```
+$ cd target
+$ java -jar blood.sugar.simulator-1.0-SNAPSHOT-jar-with-dependencies.jar random
+```
+
+if you have an input file, be sure that the file follows the this format
+timestamp (yyyy-MM-dd HH:mm:ss), index_number, type, type_id, type_name
+```
+for example
+2016-11-07 07:00:00,80.0,normalize,0,Normalize
+2016-11-07 07:10:00,30.0,food,21,Wheat tortilla
+...
+2016-11-07 22:15:00,40.0,exercise,3,Running
+```
+
+###For reference:
+to access the exercise or food database execute this command
+```
+$ cd target
+$ java -jar blood.sugar.simulator-1.0-SNAPSHOT-jar-with-dependencies.jar list
+```
+
+if you want to have this information dump into a csv file, execute this command
+```
+$ cd target
+$ java -jar blood.sugar.simulator-1.0-SNAPSHOT-jar-with-dependencies.jar list_to_csv
+```
 
 
-__Exercise:__
-Exercise decreases blood sugar linearly for one hour.
+### Prerequisites
 
+This project works using Java so it is essential have it installed.
+also it is build on maven so it is indispensable have it installed.
 
-__Normalization:__
-Blood sugar starts at 80 at the beginning of the day. If neither food nor exercise is affecting your blood sugar (it has been more than 1 or 2 hours), it will approach 80 linearly at a rate of 1 per minute.
+## Running the tests
 
+execute a simple random test
+```
+$ cd target
+$ java -jar blood.sugar.simulator-1.0-SNAPSHOT-jar-with-dependencies.jar random
+```
 
-__Glycation:__
-For every minute your blood sugar stays above 150, increment “glycation” by 1.  This is a measure of how much crystallized sugar is accumulating in your blood stream which increases heart disease risk.
+execute it with a input file
+```
+$ cd target
+$ java -jar blood.sugar.simulator-1.0-SNAPSHOT-jar-with-dependencies.jar _<path_to_input_data>_
+```
+
+## Authors
+
+* **Salomon Lee**

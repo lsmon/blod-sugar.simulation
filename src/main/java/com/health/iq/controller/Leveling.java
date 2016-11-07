@@ -1,5 +1,7 @@
 package com.health.iq.controller;
 
+import com.health.iq.data.DataAccess;
+import com.health.iq.data.LoadData;
 import com.health.iq.model.Input;
 import org.json.simple.JSONObject;
 
@@ -13,9 +15,14 @@ public class Leveling {
         return sugarIndex / minutesPeriod;
     }
 
+    public Map<Date, Double> getBloodSugarLevel() {
+        return bloodSugarLevel;
+    }
+
     public void simulateBloodSugarLevels(List<Input> inputList) {
         for (Input input : inputList) {
             System.out.println(input.toString());
+            DataAccess.insert(input);
             if (input.getType().equals("normalize")){
                 normalize(input);
             } else if (input.getType().equals("exercise")) {
@@ -154,7 +161,7 @@ public class Leveling {
 
     private void print(Date current, double sugarLevel) {
         JSONObject object = new JSONObject();
-        object.put(current,sugarLevel);
+        object.put(LoadData.getDateFormat().format(current),sugarLevel);
         System.out.println(object.toJSONString());
     }
 }

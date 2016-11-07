@@ -16,12 +16,14 @@ public class Input {
         timestamp,
         type,
         id,
+        name,
         index
     }
 
     private Date timestamp;
     private String type;
     private int id;
+    private String name;
     private double index;
 
     public Date getTimestamp() {
@@ -48,6 +50,14 @@ public class Input {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getIndex() {
         return index;
     }
@@ -61,6 +71,7 @@ public class Input {
         object.put(columns.timestamp.name(), getTimestamp().toString());
         object.put(columns.type.name(), getType());
         object.put(columns.id.name(), getId());
+        object.put(columns.name.name(), getName());
         object.put(columns.index.name(), getIndex());
         return object;
     }
@@ -75,6 +86,7 @@ public class Input {
         input.setTimestamp(r.getTimestamp(columns.timestamp.name()));
         input.setType(r.getString(columns.type.name()));
         input.setId(r.getInt(columns.id.name()));
+        input.setName(r.getString(columns.name.name()));
         input.setIndex(r.getDouble(columns.index.name()));
         return input;
     }
